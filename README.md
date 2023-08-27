@@ -33,7 +33,7 @@ This trims weight, and doesn't sacrifice functionality other than one or two syn
 
 ## Constructors
 
-Traditionally, objects have `:destroy()` methods to clean themselves up. This is how Luau users typically limit the lifetime of an object.
+Traditionally, constructors insert `:destroy()` methods for cleaning objects up. This is how Luau users typically limit the lifetime of an object.
 
 ```Lua
 local function Person(name)
