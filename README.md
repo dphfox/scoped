@@ -56,16 +56,17 @@ local bob = Person("Bob")
 local mortimer = Person("Mortimer")
 ```
 
-`scoped` adopts a new convention for constructors; the first parameter is always a cleanup table, no exceptions. Objects add their cleanup tasks to the table.
+`scoped` adopts a new convention for constructors; the first parameter is always a cleanup table, no exceptions. Objects add themselves to the cleanup table.
 
 ```Lua
 local function Person(cleanup, name)
     local self = {
         name = name
+        destroy = function()
+            print(name, "left the building!")
+        end
     }
-    table.insert(cleanup, function()
-        print(name, "left the building!")
-    end)
+    table.insert(cleanup, self)
     return self
 end
 ```
