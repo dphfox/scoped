@@ -94,3 +94,44 @@ local mortimer = scope:Person("Mortimer")
 
 doCleanup(scope)
 ```
+
+## Example snippet
+
+```Lua
+local function Button(props: Props)
+	local scope = scoped(Fusion)
+	
+	local animColoured = scope:Spring(scope:Computed(function(use)
+		return if use(props.Coloured) then 1 else 0
+	end), 50)
+
+	local isHovering = scope:Value(false)
+	local isPressed = scope:Value(false)
+
+	local textColour = scope:Computed(function(use)
+		local isDark = isColourDark(use(props.Colour)) 
+		local atopColour = if isDark then use(Theme.textAtopDark) else use(Theme.textAtopLight)
+		return use(Theme.text):Lerp(atopColour, use(animColoured))
+	end)
+
+	return scope:New "ImageButton" {
+		AnchorPoint = props.AnchorPoint,
+		Position = props.Position,
+		LayoutOrder = props.LayoutOrder,
+		ZIndex = props.ZIndex,
+		Size = props.Size,
+		AutomaticSize = props.AutomaticSize,
+		Visible = props.Visible,
+
+		Active = scope:Computed(function(use)
+			return not use(props.Disabled)
+		end),
+		BackgroundColor3 = scope:Computed(function(use)
+			return use(Theme.lightenColour):Lerp(use(props.Colour), use(animColoured))
+		end),
+		BackgroundTransparency = scope:Computed(function(use)
+			return use(Theme.lighten1) * (1 - use(animColoured))
+		end),
+
+		[Styles.text.Send] = textColour,
+```
