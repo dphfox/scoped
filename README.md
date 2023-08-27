@@ -83,7 +83,7 @@ local mortimer = Person(scope, "Mortimer")
 doCleanup(scope)
 ```
 
-As a free bonus, using the first parameter for cleanup information allows especially readable syntax using the `scoped` method. It creates a blank cleanup table, then points the metatable's `__index` at whatever constructors you wish to use. This keeps the arguments list clean and plays better with curried constructors and constructors using literal call syntax.
+Using the first parameter for cleanup information allows especially readable syntax using the `scoped` function. It creates a blank cleanup table, then points the metatable's `__index` at whatever constructors you wish to use. This keeps the arguments list clean and plays better with curried constructors and constructors using literal call syntax.
 
 ```Lua
 local scope = scoped(constructors)
