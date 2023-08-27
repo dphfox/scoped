@@ -1,5 +1,5 @@
 # scoped
-
+### Version 0.1.0
 Defeat subtly-leaky code with rigour. `scoped` innovates where the maid pattern left off, with a first-principles simple design that turns best practices into enforced rules through syntax design and static typing.
 
 
