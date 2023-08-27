@@ -99,92 +99,92 @@ doCleanup(scope)
 
 ```Lua
 local function Button(props: Props)
-	local scope = scoped(Fusion)
-	
-	local animColoured = scope:Spring(scope:Computed(function()
-		return if unwrap(props.Coloured) then 1 else 0
-	end), 50)
-	
-	local isHovering = scope:Value(false)
-	local isPressed = scope:Value(false)
-	
-	local textColour = scope:Computed(function()
-		local isDark = isColourDark(unwrap(props.Colour)) 
-		local atopColour = if isDark then unwrap(Theme.textAtopDark) else unwrap(Theme.textAtopLight)
-		return unwrap(Theme.text):Lerp(atopColour, animColoured:get())
-	end)
-	
-	return scope:New "ImageButton" {
-		[Cleanup] = scope,
-		
-		AnchorPoint = props.AnchorPoint,
-		Position = props.Position,
-		LayoutOrder = props.LayoutOrder,
-		ZIndex = props.ZIndex,
-		Size = props.Size,
-		AutomaticSize = props.AutomaticSize,
-		Visible = props.Visible,
-		
-		Active = scope:Computed(function()
-			return not unwrap(props.Disabled)
-		end),
-		BackgroundColor3 = scope:Computed(function()
-			return unwrap(Theme.lightenColour):Lerp(unwrap(props.Colour), animColoured:get())
-		end),
-		BackgroundTransparency = scope:Computed(function()
-			return unwrap(Theme.lighten1) * (1 - animColoured:get())
-		end),
-		
-		[Styles.text.Send] = textColour,
-		
-		[OnEvent "Activated"] = props.OnClick,
-		
-		[OnEvent "MouseEnter"] = function()
-			isHovering:set(true)
-		end,
-		[OnEvent "MouseLeave"] = function()
-			isHovering:set(false)
-			isPressed:set(false)
-		end,
-		[OnEvent "MouseButton1Down"] = function()
-			isPressed:set(true)
-		end,
-		[OnEvent "MouseButton1Up"] = function()
-			isPressed:set(false)
-		end,
-		
-		[Children] = {
-			Round(4),
-			scope:New "Frame" {
-				BackgroundTransparency = scope:Spring(scope:Computed(function()
-					return if unwrap(isPressed) then 0.75 else 1
-				end), 50),
-				BackgroundColor3 = Color3.new(0, 0, 0),
-				Size = UDim2.fromScale(1, 1),
-				
-				[Children] = {
-					Round(4),
-					Padding(1),
-					scope:New "Frame" {
-						BackgroundTransparency = 1,
-						Size = UDim2.fromScale(1, 1),
+    local scope = scoped(Fusion)
+    
+    local animColoured = scope:Spring(scope:Computed(function()
+        return if unwrap(props.Coloured) then 1 else 0
+    end), 50)
+    
+    local isHovering = scope:Value(false)
+    local isPressed = scope:Value(false)
+    
+    local textColour = scope:Computed(function()
+        local isDark = isColourDark(unwrap(props.Colour)) 
+        local atopColour = if isDark then unwrap(Theme.textAtopDark) else unwrap(Theme.textAtopLight)
+        return unwrap(Theme.text):Lerp(atopColour, animColoured:get())
+    end)
+    
+    return scope:New "ImageButton" {
+        [Cleanup] = scope,
+        
+        AnchorPoint = props.AnchorPoint,
+        Position = props.Position,
+        LayoutOrder = props.LayoutOrder,
+        ZIndex = props.ZIndex,
+        Size = props.Size,
+        AutomaticSize = props.AutomaticSize,
+        Visible = props.Visible,
+        
+        Active = scope:Computed(function()
+            return not unwrap(props.Disabled)
+        end),
+        BackgroundColor3 = scope:Computed(function()
+            return unwrap(Theme.lightenColour):Lerp(unwrap(props.Colour), animColoured:get())
+        end),
+        BackgroundTransparency = scope:Computed(function()
+            return unwrap(Theme.lighten1) * (1 - animColoured:get())
+        end),
+        
+        [Styles.text.Send] = textColour,
+        
+        [OnEvent "Activated"] = props.OnClick,
+        
+        [OnEvent "MouseEnter"] = function()
+            isHovering:set(true)
+        end,
+        [OnEvent "MouseLeave"] = function()
+            isHovering:set(false)
+            isPressed:set(false)
+        end,
+        [OnEvent "MouseButton1Down"] = function()
+            isPressed:set(true)
+        end,
+        [OnEvent "MouseButton1Up"] = function()
+            isPressed:set(false)
+        end,
+        
+        [Children] = {
+            Round(4),
+            scope:New "Frame" {
+                BackgroundTransparency = scope:Spring(scope:Computed(function()
+                    return if unwrap(isPressed) then 0.75 else 1
+                end), 50),
+                BackgroundColor3 = Color3.new(0, 0, 0),
+                Size = UDim2.fromScale(1, 1),
+                
+                [Children] = {
+                    Round(4),
+                    Padding(1),
+                    scope:New "Frame" {
+                        BackgroundTransparency = 1,
+                        Size = UDim2.fromScale(1, 1),
 
-						[Children] = {
-							Round(2),
-							Padding(3),
-							scope:New "UIStroke" {
-								Thickness = 1,
-								Color = textColour,
-								Transparency = scope:Spring(scope:Computed(function()
-									return if unwrap(isHovering) then 0.75 else 1
-								end), 50)
-							},
-							props[Children]
-						}
-					}
-				}
-			}
-		}
-	}
+                        [Children] = {
+                            Round(2),
+                            Padding(3),
+                            scope:New "UIStroke" {
+                                Thickness = 1,
+                                Color = textColour,
+                                Transparency = scope:Spring(scope:Computed(function()
+                                    return if unwrap(isHovering) then 0.75 else 1
+                                end), 50)
+                            },
+                            props[Children]
+                        }
+                    }
+                }
+            }
+        }
+    }
 end
 ```
