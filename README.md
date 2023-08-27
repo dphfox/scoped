@@ -101,17 +101,17 @@ doCleanup(scope)
 local function Button(props: Props)
     local scope = scoped(Fusion)
     
-    local animColoured = scope:Spring(scope:Computed(function()
-        return if unwrap(props.Coloured) then 1 else 0
+    local animColoured = scope:Spring(scope:Computed(function(use)
+        return if use(props.Coloured) then 1 else 0
     end), 50)
     
     local isHovering = scope:Value(false)
     local isPressed = scope:Value(false)
     
-    local textColour = scope:Computed(function()
-        local isDark = isColourDark(unwrap(props.Colour)) 
-        local atopColour = if isDark then unwrap(Theme.textAtopDark) else unwrap(Theme.textAtopLight)
-        return unwrap(Theme.text):Lerp(atopColour, animColoured:get())
+    local textColour = scope:Computed(function(use)
+        local isDark = isColourDark(use(props.Colour)) 
+        local atopColour = if isDark then use(Theme.textAtopDark) else use(Theme.textAtopLight)
+        return use(Theme.text):Lerp(atopColour, use(animColoured))
     end)
     
     return scope:New "ImageButton" {
@@ -125,14 +125,14 @@ local function Button(props: Props)
         AutomaticSize = props.AutomaticSize,
         Visible = props.Visible,
         
-        Active = scope:Computed(function()
-            return not unwrap(props.Disabled)
+        Active = scope:Computed(function(use)
+            return not use(props.Disabled)
         end),
-        BackgroundColor3 = scope:Computed(function()
-            return unwrap(Theme.lightenColour):Lerp(unwrap(props.Colour), animColoured:get())
+        BackgroundColor3 = scope:Computed(function(use)
+            return use(Theme.lightenColour):Lerp(use(props.Colour), use(animColoured))
         end),
-        BackgroundTransparency = scope:Computed(function()
-            return unwrap(Theme.lighten1) * (1 - animColoured:get())
+        BackgroundTransparency = scope:Computed(function(use)
+            return use(Theme.lighten1) * (1 - use(animColoured))
         end),
         
         [Styles.text.Send] = textColour,
@@ -156,8 +156,8 @@ local function Button(props: Props)
         [Children] = {
             Round(4),
             scope:New "Frame" {
-                BackgroundTransparency = scope:Spring(scope:Computed(function()
-                    return if unwrap(isPressed) then 0.75 else 1
+                BackgroundTransparency = scope:Spring(scope:Computed(function(use)
+                    return if use(isPressed) then 0.75 else 1
                 end), 50),
                 BackgroundColor3 = Color3.new(0, 0, 0),
                 Size = UDim2.fromScale(1, 1),
@@ -175,8 +175,8 @@ local function Button(props: Props)
                             scope:New "UIStroke" {
                                 Thickness = 1,
                                 Color = textColour,
-                                Transparency = scope:Spring(scope:Computed(function()
-                                    return if unwrap(isHovering) then 0.75 else 1
+                                Transparency = scope:Spring(scope:Computed(function(use)
+                                    return if use(isHovering) then 0.75 else 1
                                 end), 50)
                             },
                             props[Children]
