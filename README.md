@@ -3,7 +3,7 @@
 Defeat subtly-leaky code with rigour. `scoped` innovates where the maid pattern left off, with a first-principles simple design that turns best practices into enforced rules through syntax design and static typing.
 
 
-## How it works
+## Cleanup tables
 
 Maids mostly just store a list of things to clean up, underneath an OOP abstraction layer. Their only truly unique method is `:destroy()` which contains the cleanup logic.
 
@@ -31,7 +31,7 @@ doCleanup(scope)
 
 This trims weight, and doesn't sacrifice functionality other than one or two syntax conveniences. The standalone function is advantageous as it is more reusable, including as a callback passed into other function calls.
 
------
+## Constructors
 
 Traditionally, objects have `:destroy()` methods to clean themselves up. This is how Luau users typically limit the lifetime of an object.
 
@@ -94,5 +94,3 @@ local mortimer = scope:Person("Mortimer")
 
 doCleanup(scope)
 ```
-
-All of this in a low cost, low compexity abstraction, implemented in a single pasteable file.
