@@ -2,7 +2,6 @@
 ### Version 0.1.0
 Defeat subtly-leaky code with rigour. `scoped` innovates where the maid pattern left off, with a first-principles simple design that turns best practices into enforced rules through syntax design and static typing.
 
-
 ## Cleanup tables
 
 Maids mostly just store a list of things to clean up, underneath an OOP abstraction layer. Their only truly unique method is `:destroy()` which contains the cleanup logic.
@@ -190,3 +189,11 @@ local function Button(props: Props)
     }
 end
 ```
+
+## License
+
+Licensed the same way as all of my open source projects: BSD 3-Clause + Security Disclaimer.
+
+As with all other projects, you accept responsibility for choosing and using this project.
+
+See [LICENSE.md](./LICENSE.md) or [the license summary](https://github.com/dphfox/licence) for details.
